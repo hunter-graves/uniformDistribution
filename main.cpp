@@ -25,10 +25,10 @@ double cubedFunction(double toBeCubed)
 
 
 //generating 250 independent copies of g(x)
-vector<double> sampleGeneration()
+vector<double> sampleGeneration(int numberOfSamples)
 {
     vector<double> vectorToHoldSamples;
-    for(int x = 0; x < 250; x++)
+    for(int x = 0; x < numberOfSamples; x++)
     vectorToHoldSamples.push_back(uniformDistribution());
     return vectorToHoldSamples;
 }
@@ -67,30 +67,71 @@ double standardDeviationOfCubedSamples(vector<double> vectorOfCubedSamples)
     double runningTotal = 0;
     for(int x = 0; x < vectorOfCubedSamples.size(); x++)
     {
-        runningTotal += ( pow( (vectorOfCubedSamples[x] - mean), 2) );
+        runningTotal += ( pow( (vectorOfCubedSamples[x] - mean), 2.0) );
     }
-    return sqrt(runningTotal/(vectorOfCubedSamples.size()-1));
+    return sqrt( runningTotal/(vectorOfCubedSamples.size()-1) );
 }
+
+
+
+//calculate the sample average of f(g(x))
+//for 25 samples
+double sampleAverageTwentyFive(vector<double> vectorOfCubedSamples)
+{
+    double runningTotal = 0;
+    for(int x = 0; x < vectorOfCubedSamples.size(); x++) {
+        runningTotal += vectorOfCubedSamples[x];
+   // cout<<"The running total is: " << runningTotal << endl;
+    }
+    return (runningTotal/25);
+}
+
+vector<double> generateAverages(int numberOfAveragesToGenerate)
+{
+   vector<double> vectorOfAverages;
+    for(int x = 0; x < numberOfAveragesToGenerate; x++)
+        vectorOfAverages.push_back(sampleAverageTwentyFive(samplesCubed(sampleGeneration(25))));
+    return vectorOfAverages;
+}
+
 
 
 int main()
 {
-    srand(time(0));
+
+srand(time(0));
 //vector for 250 samples
-vector<double> samples = sampleGeneration();
+vector<double> samples = sampleGeneration(250);
 //vector to cube each sample
 samples = samplesCubed(samples);
-    for (int count = 0; count < samples.size(); count++)
+/*   for (int count = 0; count < samples.size(); count++)
  {
     cout << "samples["<<count<<"] "<< "contains: " << samples[count] << endl;
  }
-
-    cout <<"********" << endl;
-    cout <<"********" << endl;
+*/
+    cout <<"****Q1*********" << endl;
+    cout <<"****Start******" << endl;
     cout << "The mean of the cubed samples is: " << meanOfCubedSamples(samples) << endl;
-    cout <<"********" << endl;
-    cout <<"********" << endl;
     cout << "The standard deviation of the cubed sample is: " << standardDeviationOfCubedSamples(samples) << endl;
+    cout <<"***************" << endl;
+    cout <<"****End********" << endl;
+    cout <<"****************" << endl;
+    cout <<"****Q2*********" << endl;
+    cout <<"****Start******" << endl;
+    /*vector<double> secondSamples = sampleGeneration(25);
+    secondSamples = samplesCubed(secondSamples);
+    cout << "The values of the sample are: " << endl;
+    for (int count = 0; count < secondSamples.size(); count++)
+    {
+        cout << "samples["<<count<<"] "<< "contains: " << secondSamples[count] << endl;
+    }
+    cout << "The sample average is: " << sampleAverageTwentyFive(secondSamples) << endl;
+     */
+
+
+    vector<double> final = generateAverages(250);
+    for(int x = 0; x < final.size(); x++)
+        cout << "the average of index " << x << " is: " << final[x] << endl;
     return 0;
 }
 
