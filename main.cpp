@@ -1,3 +1,9 @@
+/* Hunter Graves
+ * Math 324
+ * May 3rd, 2018
+ * Homework
+ */
+
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -82,7 +88,7 @@ double sampleAverageTwentyFive(vector<double> vectorOfCubedSamples)
     double runningTotal = 0;
     for(int x = 0; x < vectorOfCubedSamples.size(); x++) {
         runningTotal += vectorOfCubedSamples[x];
-   // cout<<"The running total is: " << runningTotal << endl;
+
     }
     return (runningTotal/25);
 }
@@ -96,85 +102,53 @@ vector<double> generateAverages(int numberOfAveragesToGenerate)
 }
 
 
-void printHistorgram(vector<double> vectorToWriteToFile)
-{
-    double intervalWidth = .05;
-
-    for(int x = 0; x < vectorToWriteToFile.size(); x++)
-    {
-        cout << endl;
-        cout << intervalWidth << "|| ";
-        int frequency = 0;
-        for (int i = 0; i < vectorToWriteToFile.size(); i++)
-        {
-
-
-            if (vectorToWriteToFile[i] < intervalWidth)
-            {
-                frequency++;
-                vectorToWriteToFile.erase(vectorToWriteToFile.begin()+i);
-            }
-
-
-        }
-
-        for (int a = 0; a < frequency; a++)
-        cout << "*";
-        intervalWidth = (intervalWidth +.05);
-    }
-
-}
-
 
 int main()
 {
-
+//initialize random generator
 srand(time(0));
-//vector for 250 samples
+
+
+//vector for 250 samples for question 2
 vector<double> samples = sampleGeneration(250);
-//vector to cube each sample
+//vector to cube each sample for question 2
 samples = samplesCubed(samples);
-/*   for (int count = 0; count < samples.size(); count++)
- {
-    cout << "samples["<<count<<"] "<< "contains: " << samples[count] << endl;
- }
-*/
-    cout <<"****Q1*********" << endl;
+
+    //Begin output screen for Q2 and provide mean and standard deviation
+    //then begin output screen for Q3
+    cout <<"****Q2c*********" << endl;
     cout <<"****Start******" << endl;
     cout << "The mean of the cubed samples is: " << meanOfCubedSamples(samples) << endl;
     cout << "The standard deviation of the cubed sample is: " << standardDeviationOfCubedSamples(samples) << endl;
     cout <<"***************" << endl;
     cout <<"****End********" << endl;
     cout <<"****************" << endl;
-    cout <<"****Q2*********" << endl;
+    cout <<"****Q3c*********" << endl;
     cout <<"****Start******" << endl;
-    vector<double> secondSamples = sampleGeneration(25);
-    secondSamples = samplesCubed(secondSamples);
-    /*
-    cout << "The values of the sample are: " << endl;
-    for (int count = 0; count < secondSamples.size(); count++)
-    {
-        cout << "samples["<<count<<"] "<< "contains: " << secondSamples[count] << endl;
-    }
-    cout << "The sample average is: " << sampleAverageTwentyFive(secondSamples) << endl;
-     */
 
 
-    //vector<double> final = generateAverages(250);
-    /*printHistorgram(samplesCubed(sampleGeneration(250)));
-    cout << endl;
-    cout << "- - - - - - - - - - - - - - - - - " << endl;
-         cout << endl;
-    printHistorgram((generateAverages(250)));
-cout << endl;
-    //for(int x = 0; x < final.size(); x++)
-     //   cout << "the average of index " << x << " is: " << final[x] << endl;
-*/
-    ofstream myFile("data.txt");
+    //Put question 3 data into text file
+    //and output mean and standard deviation
+    ofstream myNextFile("stepThreeData.txt");
+    vector<double> partThree = generateAverages(250);
+    for(int i = 0; i < partThree.size(); i++ )
+        myNextFile << partThree[i] << endl;
+    myNextFile.close();
+    cout << "The mean of the samples is: " << meanOfCubedSamples(partThree) << endl;
+    cout << "The standard deviation of the cubed sample is: " << standardDeviationOfCubedSamples(partThree) << endl;
+    cout <<"***************" << endl;
+    cout <<"****End********" << endl;
+
+
+    //Put question 2 data into text file
+    ofstream myFile("stepTwodata.txt");
 
     for(int i = 0; i < samples.size(); i++) {
-        myFile << samples[i] << ",";
+        myFile << samples[i] << endl;
     }
+    myFile.close();
+
+
         return 0;
 }
 
