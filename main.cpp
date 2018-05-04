@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <fstream>
 using namespace std;
 
 
@@ -95,6 +96,35 @@ vector<double> generateAverages(int numberOfAveragesToGenerate)
 }
 
 
+void printHistorgram(vector<double> vectorToWriteToFile)
+{
+    double intervalWidth = .05;
+
+    for(int x = 0; x < vectorToWriteToFile.size(); x++)
+    {
+        cout << endl;
+        cout << intervalWidth << "|| ";
+        int frequency = 0;
+        for (int i = 0; i < vectorToWriteToFile.size(); i++)
+        {
+
+
+            if (vectorToWriteToFile[i] < intervalWidth)
+            {
+                frequency++;
+                vectorToWriteToFile.erase(vectorToWriteToFile.begin()+i);
+            }
+
+
+        }
+
+        for (int a = 0; a < frequency; a++)
+        cout << "*";
+        intervalWidth = (intervalWidth +.05);
+    }
+
+}
+
 
 int main()
 {
@@ -118,8 +148,9 @@ samples = samplesCubed(samples);
     cout <<"****************" << endl;
     cout <<"****Q2*********" << endl;
     cout <<"****Start******" << endl;
-    /*vector<double> secondSamples = sampleGeneration(25);
+    vector<double> secondSamples = sampleGeneration(25);
     secondSamples = samplesCubed(secondSamples);
+    /*
     cout << "The values of the sample are: " << endl;
     for (int count = 0; count < secondSamples.size(); count++)
     {
@@ -129,10 +160,22 @@ samples = samplesCubed(samples);
      */
 
 
-    vector<double> final = generateAverages(250);
-    for(int x = 0; x < final.size(); x++)
-        cout << "the average of index " << x << " is: " << final[x] << endl;
-    return 0;
+    //vector<double> final = generateAverages(250);
+    /*printHistorgram(samplesCubed(sampleGeneration(250)));
+    cout << endl;
+    cout << "- - - - - - - - - - - - - - - - - " << endl;
+         cout << endl;
+    printHistorgram((generateAverages(250)));
+cout << endl;
+    //for(int x = 0; x < final.size(); x++)
+     //   cout << "the average of index " << x << " is: " << final[x] << endl;
+*/
+    ofstream myFile("data.txt");
+
+    for(int i = 0; i < samples.size(); i++) {
+        myFile << samples[i] << ",";
+    }
+        return 0;
 }
 
 
